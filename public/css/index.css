@@ -1,0 +1,182 @@
+* {
+    font-family: 'Andika', sans-serif;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+/* --------- Background ---------- */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("/public/images/menu_background.png");
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.menu-stickers {
+    display:flex;
+    position: absolute;
+    z-index: -1;
+}
+
+#bird {
+    top: 70px;
+    left: 1400px;
+}
+
+#horse {
+    top: 450px;
+    left: 220px;
+    width: 150px;
+}
+
+.sounds-icon {
+    position: relative;
+    left: -850px;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+#menu-music {
+    left: -830px;
+}
+/* --------- Background ---------- */
+
+/* --------- Main Menu ----------- */
+main, #main-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 99%;
+    width: 100%;
+    z-index: 0;
+}
+
+h1 {
+    font-size: 58px;
+    margin-bottom: 400px;
+    color: #4e1e00;
+}
+/* --------- Main Menu ----------- */
+
+/* --------- Rules Menu ----------- */
+#rules-menu{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 860px;
+    width: 720px;
+    z-index: 0;
+    background-color: #fff8f4;
+    border: solid 4px #742c00;
+    border-radius: 10%;
+    color: #4e1e00;
+    font-size: 24px;
+}
+
+#drag-tutorial {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 85%;
+    height: 400px;
+}
+
+.animals-tutorial {
+    position:relative;
+    width: 200px;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.holes-tutorial {
+    position: relative;
+    width: 200px;
+    object-fit: contain;
+    filter: contrast(0%)
+            saturate(0%)
+}
+
+#cursor-tutorial {
+    position: relative;
+    width: 25px;
+    object-fit: contain;
+    z-index: 2;
+}
+
+#hippopotamus-tutorial {
+    position: absolute;
+    top: 550px;
+    left: 1000px;
+}
+
+#float-point-tutorial {
+    position: absolute;
+    color: #351400;;
+    top: 400px;
+    left: 1100px;
+    font-family: 'Press Start 2P', cursive;
+    z-index: 2;
+    opacity: 0;
+}
+
+.life-bar-tutorial {
+    position: absolute;
+    top: 600px;
+    width: 200px;
+}
+
+#exit-rules {
+    position: relative;
+    top: -50px;
+}
+/* --------- Rules Menu ----------- */
+
+/* --------- Game Screen ---------- */
+#game-screen {
+    border: solid 4px #742c00;
+    height: 720px;
+    width: 1160px;
+    background-color: #a8eeb3;
+}
+
+.animals, .holes {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border: solid;
+}
+/* --------- Game Screen ---------- */
+
+/* --------- Buttons ----------- */
+button {
+    font-size: 38px;
+    color: #2e1200;
+    width: 300px;
+    height: 80px;
+    border-radius: 30px;
+    background: rgb(255,231,69);
+    background: linear-gradient(180deg, rgba(255,231,69,1) 13%, rgba(233,117,47,1) 93%); 
+    border: solid 4px #742c00;
+    box-shadow: #9e4005 0 8px;
+    cursor: pointer;
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: #9e4005 0 4px;
+}
+/* --------- Buttons ----------- */
