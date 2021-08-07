@@ -149,12 +149,16 @@ h1 {
 
 /* --------- Game Screen ---------- */
 #info-bar {
+    position: relative;
     display: flex;
     justify-content: space-between;
     width: 1160px;
 }
 
 .life-bar {
+    position: absolute;
+    left: 80%;
+    top: 60%;
     width: 200px;
     object-fit: contain;
 }
@@ -162,6 +166,11 @@ h1 {
 #player-points, #player-points span {
     font-family: 'Press Start 2P', cursive;
     font-size: 32px;
+}
+
+#player-points {
+    position: absolute;
+    left: 40%;
 }
 
 #quit-game {
@@ -176,6 +185,7 @@ h1 {
     height: 720px;
     width: 1200px;
     background-color: #a8eeb3;
+    cursor: pointer;
 }
 
 .animals, .holes {
@@ -183,11 +193,11 @@ h1 {
     width: 150px;
     height: 150px;
     object-fit: contain;
-    border: solid;
 }
 
 .animals {
-    z-index: 1;
+    z-index: 2;
+    cursor: move;
 }
 /* --------- Game Screen ---------- */
 

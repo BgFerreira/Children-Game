@@ -7,7 +7,8 @@ $(document).ready(function () {
 
     let gameControl = new Game();
 
-    $("#rules-menu, #game-screen, .animals, .holes").hide();
+    $("#rules-menu, #game-screen, .animals, .holes, .life-bar").hide();
+    $("#life-bar").show();
     // ---------- Sound Area ----------
     let muteAudioState = false;
 
@@ -15,7 +16,7 @@ $(document).ready(function () {
     music.src = `${AUDIO_PATH}LittlerootTown_fromPokemonEmerald.mp3`;
     music.autoplay = true;
     music.loop = true;
-    music.volume = 0.02;
+    music.volume = 0.1;
 
     let buttonClick = new Audio();
     buttonClick.src = `${AUDIO_PATH}button_click.mp3`;
@@ -31,6 +32,19 @@ $(document).ready(function () {
     hitSound.src = `${AUDIO_PATH}hit_sound.wav`;
     hitSound.preload = true;
     hitSound.muted = muteAudioState;
+    hitSound.volume = 0.1;
+
+    let errorSound = new Audio();
+    errorSound.src = `${AUDIO_PATH}error_sound.mp3`;
+    errorSound.preload = true;
+    errorSound.muted = muteAudioState;
+    errorSound.volume = 0.1;
+
+    let newLevelSound = new Audio();
+    newLevelSound.src = `${AUDIO_PATH}newlevel_sound.wav`;
+    newLevelSound.preload = true;
+    newLevelSound.muted = muteAudioState;
+    newLevelSound.volume = 0.2;
 
     $("button").click(function () {
         buttonClick.play();
@@ -56,6 +70,24 @@ $(document).ready(function () {
             muteAudioState = true;
             buttonClick.muted = muteAudioState;
 
+            hitSound = new Audio();
+            hitSound.src = `${AUDIO_PATH}hit_sound.wav`;
+            hitSound.preload = true;
+            hitSound.muted = muteAudioState;
+            hitSound.volume = 0.2;
+
+            errorSound = new Audio();
+            errorSound.src = `${AUDIO_PATH}error_sound.mp3`;
+            errorSound.preload = true;
+            errorSound.muted = muteAudioState;
+            errorSound.volume = 0.1;
+
+            newLevelSound = new Audio();
+            newLevelSound.src = `${AUDIO_PATH}newlevel_sound.wav`;
+            newLevelSound.preload = true;
+            newLevelSound.muted = muteAudioState;
+            newLevelSound.volume = 0.2;
+
         } else {
             $("#sound-effects").attr("src", soundImage);
 
@@ -64,6 +96,24 @@ $(document).ready(function () {
             buttonClick.preload = true;
             muteAudioState = false;
             buttonClick.muted = muteAudioState;
+
+            hitSound = new Audio();
+            hitSound.src = `${AUDIO_PATH}hit_sound.wav`;
+            hitSound.preload = true;
+            hitSound.muted = muteAudioState;
+            hitSound.volume = 0.2;
+
+            errorSound = new Audio();
+            errorSound.src = `${AUDIO_PATH}error_sound.mp3`;
+            errorSound.preload = true;
+            errorSound.muted = muteAudioState;
+            errorSound.volume = 0.1;
+
+            newLevelSound = new Audio();
+            newLevelSound.src = `${AUDIO_PATH}newlevel_sound.wav`;
+            newLevelSound.preload = true;
+            newLevelSound.muted = muteAudioState;
+            newLevelSound.volume = 0.1;
         }
     });
 
@@ -144,27 +194,7 @@ $(document).ready(function () {
                 $("#game-screen").show();
             });
         });
-
-        let selectedAnimals = drawAnimals();
-        console.log(selectedAnimals);
-
-        let selectedHoles = drawHoles(selectedAnimals);
-        console.log(selectedHoles);
-
-        for (let i = 0; i < selectedAnimals.length; i++ ) {
-            $(animalObject[selectedAnimals[i]].id).show();
-        }
-
-        let holePosArray = drawPos();
-        for (let i = 0; i < selectedHoles.length; i++ ) {
-            $(animalObject[selectedHoles[i]].holeId).show();
-            
-            animalObject[selectedHoles[i]].holePosition.top = holePosArray[i][0] * 150;
-            animalObject[selectedHoles[i]].holePosition.left = holePosArray[i][1] * 150;
-            $(animalObject[selectedHoles[i]].holeId).css(animalObject[selectedHoles[i]].holePosition);
-        }
-
-
+        buildLevel();
     });
 
 
@@ -172,33 +202,116 @@ $(document).ready(function () {
         cursor: "move",
         cursorAt: { top: 75, left: 75 },
         zIndex: 10,
+        containment: "parent",
         revert: "invalid",
 
-        drag: function (ui, event) {
+        drag: function (event, ui) {
             gameControl.dragAnimal = $(this).attr("id");
-            console.log(Math.floor($(this).position().top + 75), Math.floor($(this).position().left + 75));
+            animalObject[gameControl.dragAnimal].animalPosition = $(this).position();
         },
 
-        //detect when LBM is released
-        stop: function (ui, event) {
-            //code
+        revert: function () {
+            if ($(this).hasClass('drag-revert')) {
+                $(this).removeClass('drag-revert');
+                return true;
+            }
         }
     });
 
     $(".holes").droppable({
-        drop: function (ui, event) {
-            //code
+        drop: function (event, ui) {
+            if (animalObject[ui.draggable[0].id].holeId == `#${$(this).attr("id")}`) {
+
+                gameControl.playerPoints += 10;
+                gameControl.playerPointsThisLevel += 10
+                $("#player-points > span").text(gameControl.playerPoints);
+
+                hitSound.play();
+                hitSound = new Audio();
+                hitSound.src = `${AUDIO_PATH}hit_sound.wav`;
+                hitSound.preload = true;
+                hitSound.muted = muteAudioState;
+                hitSound.volume = 0.1;
+
+                ui.draggable.position({
+                    my: "center",
+                    at: "center",
+                    of: $(this),
+                });
+
+                ui.draggable.draggable({ disabled: true });
+                $(this).droppable({ disabled: true });
+
+                if (gameControl.playerPointsThisLevel == gameControl.currentLevel * 10) {
+                    gameControl.currentLevel++;
+                    gameControl.playerPointsThisLevel = 0;
+
+                    newLevelSound.play();
+                    newLevelSound = new Audio();
+                    newLevelSound.src = `${AUDIO_PATH}newlevel_sound.wav`;
+                    newLevelSound.preload = true;
+                    newLevelSound.muted = muteAudioState;
+                    newLevelSound.volume = 0.2;
+
+                    if (gameControl.currentLevel > gameControl.totalLevel) {
+                        gameControl.clearGame();
+                        $(".animals").draggable({ disabled: false });
+                        $(".holes").droppable({ disabled: false });
+                        $("#game-screen").fadeOut(1000, function() {
+                            // if for ranking
+                            $("#main-menu").show();
+                            $(".animals, .holes").hide();
+                            $("#player-points > span").text("0");
+                            $("#life-bar2, #life-bar3, #life-bar4").hide(0);
+                            gameControl.clearGame();
+                        });
+
+                    } else {
+                        $(".animals").draggable({ disabled: false });
+                        $(".holes").droppable({ disabled: false });
+                        $(".animals, .holes").hide();
+                        buildLevel();
+                    }
+                }
+
+            } else {
+                gameControl.playerLifes--;
+
+                if (gameControl.playerLifes == 2) {
+                    $("#life-bar2").fadeIn(300);
+                } else if (gameControl.playerLifes == 1) {
+                    $("#life-bar3").fadeIn(300);
+                } else {
+                    $("#life-bar4").fadeIn(300);
+                    // if for ranking
+                }
+
+                errorSound.play()
+                errorSound = new Audio();
+                errorSound.src = `${AUDIO_PATH}error_sound.mp3`;
+                errorSound.preload = true;
+                errorSound.muted = muteAudioState;
+                errorSound.volume = 0.1;
+
+                return $(ui.draggable).addClass('drag-revert');
+            }
         }
     });
 
     $("#quit-game").click(function () {
+        gameControl.clearGame();
+        $("#player-points > span").text("0");
+        $(".animals").draggable({ disabled: false });
+        $(".holes").droppable({ disabled: false });
 
         $(".animals").hide();
         $(".holes").hide();
+        $(".life-bar").hide();
 
         $("#game-screen").fadeOut(700, function () {
             $(".menu-stickers").show();
             $("#main-menu").show();
+            $("#life-bar").show();
         });
 
 
@@ -213,9 +326,9 @@ $(document).ready(function () {
                 selectedAnimals.push(animalsArray[random]);
             }
 
-            random = Math.floor(Math.random() * (gameControl.totalAnimalsThisLevel));
+            random = Math.floor(Math.random() * (gameControl.currentLevel * 2));
 
-        } while (selectedAnimals.length < gameControl.totalAnimalsThisLevel);
+        } while (selectedAnimals.length < gameControl.currentLevel * 2);
         return selectedAnimals;
     }
 
@@ -230,7 +343,7 @@ $(document).ready(function () {
 
             random = Math.floor(Math.random() * selectedAnimals.length);
 
-        } while (selectedHoles.length < gameControl.totalHolesThisLevel);
+        } while (selectedHoles.length < gameControl.currentLevel);
         return selectedHoles;
     }
 
@@ -241,23 +354,59 @@ $(document).ready(function () {
         let randomY = Math.floor(Math.random() * (divHeight / 150));
         let divPos = [randomY, randomX];
         let divPosArray = [];
+        let arraysEqual = 0;
 
         do {
-            
-            for (let i = 0; i < divPosArray.length; i++) {
-                if (divPosArray[i].indexOf(divPos) == -1) {
-                    if (divPos[0] * 150 < (divHeight - 150) && divPos[1] * 150 < divWidth - 150) {
-                        divPosArray.push(divPos);
-                    }
-                }
+            if ((divPos[0] * 150 < (divHeight - 150) && divPos[1] * 150 < divWidth - 150) && (divPosArray.length == 0 || arraysEqual == 0)) {
+                divPosArray.push(divPos);
             }
 
             randomX = Math.floor(Math.random() * (divWidth / 150));
             randomY = Math.floor(Math.random() * (divHeight / 150));
             divPos = [randomY, randomX];
 
-        } while (divPosArray.length < gameControl.totalHolesThisLevel + gameControl.totalAnimalsThisLevel);
-        console.log(divPosArray)
+            arraysEqual = lookEqualsPos(divPosArray, divPos);
+
+        } while (divPosArray.length < gameControl.currentLevel + (gameControl.currentLevel * 2));
+
         return divPosArray;
+    }
+
+    function lookEqualsPos(divPosArray, divPos) {
+        let arrayReturn = [];
+
+        for (let i = 0; i < divPosArray.length; i++) {
+            if (divPosArray[i][0] == divPos[0] && divPosArray[i][1] == divPos[1]) {
+                arrayReturn.push(null);
+            }
+        }
+
+        return arrayReturn.length;
+    };
+
+    function buildLevel() {
+        let selectedAnimals = drawAnimals();
+        let selectedHoles = drawHoles(selectedAnimals);
+        let divPosArray = drawPos();
+        let animalPosArray = divPosArray.slice(0, selectedAnimals.length);
+        let holePosArray = divPosArray.slice(selectedAnimals.length, selectedAnimals.length + selectedHoles.length)
+
+        for (let i = 0; i < selectedAnimals.length; i++) {
+            $(animalObject[selectedAnimals[i]].id).show();
+
+            animalObject[selectedAnimals[i]].animalPosition.top = animalPosArray[i][0] * 150;
+            animalObject[selectedAnimals[i]].animalPosition.left = animalPosArray[i][1] * 150;
+
+            $(animalObject[selectedAnimals[i]].id).css(animalObject[selectedAnimals[i]].animalPosition);
+        }
+
+        for (let i = 0; i < selectedHoles.length; i++) {
+            $(animalObject[selectedHoles[i]].holeId).show();
+
+            animalObject[selectedHoles[i]].holePosition.top = holePosArray[i][0] * 150;
+            animalObject[selectedHoles[i]].holePosition.left = holePosArray[i][1] * 150;
+
+            $(animalObject[selectedHoles[i]].holeId).css(animalObject[selectedHoles[i]].holePosition);
+        }
     }
 });

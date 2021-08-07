@@ -14,8 +14,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -44,8 +44,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -58,9 +58,9 @@ export const animalObject = {
             left: 0
         },
 
-       holePosition: {
-            top: 200,
-            left: 200
+        holePosition: {
+            top: 0,
+            left: 0
         }
     },
 
@@ -69,13 +69,13 @@ export const animalObject = {
         holeId: "#elephant-hole",
         image: `${IMAGE_PATH}elephant.png`,
         animalPosition: {
-            top: 200,
-            left: 350
+            top: 0,
+            left: 0
         },
 
-       holePosition: {
-            top: 200,
-            left: 200
+        holePosition: {
+            top: 0,
+            left: 0
         }
     },
 
@@ -89,8 +89,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -104,8 +104,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -119,8 +119,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -134,8 +134,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -149,8 +149,8 @@ export const animalObject = {
         },
 
         holePosition: {
-            top: 200,
-            left: 200
+            top: 0,
+            left: 0
         }
     },
 
@@ -163,9 +163,9 @@ export const animalObject = {
             left: 0
         },
 
-       holePosition: {
-            top: 200,
-            left: 200
+        holePosition: {
+            top: 0,
+            left: 0
         }
     },
 
@@ -187,9 +187,8 @@ export const animalObject = {
 
 export class Game {
     #totalLevel = animalsArray.length / 2;
-    #currentLevel = this.#totalLevel;
-    #totalAnimalsThisLevel = this.currentLevel * 2;
-    #totalHolesThisLevel = this.currentLevel;
+    #currentLevel = 1;
+    #playerPointsThisLevel = 0;
     #dragAnimal = undefined;
     #playerPoints = 0;
     #playerLifes = 3;
@@ -206,12 +205,12 @@ export class Game {
         return this.#currentLevel;
     }
 
-    get totalAnimalsThisLevel() {
-        return this.#totalAnimalsThisLevel;
+    set playerPointsThisLevel(_playerPointsThisLevel) {
+        this.#playerPointsThisLevel = _playerPointsThisLevel;
     }
 
-    get totalHolesThisLevel() {
-        return this.#totalHolesThisLevel;
+    get playerPointsThisLevel() {
+        return this.#playerPointsThisLevel;
     }
 
     set dragAnimal(_dragAnimal) {
@@ -236,5 +235,14 @@ export class Game {
 
     get playerLifes() {
         return this.#playerLifes;
+    }
+
+    clearGame() {
+        this.#totalLevel = animalsArray.length / 2;
+        this.#currentLevel = 1;
+        this.#playerPointsThisLevel = 0;
+        this.#dragAnimal = undefined;
+        this.#playerPoints = 0;
+        this.#playerLifes = 3;
     }
 }
