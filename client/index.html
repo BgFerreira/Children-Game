@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Drag the animals</title>
+
+    <link rel="stylesheet" href="./public/css/index.css" />
+    <link rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Andika&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <img src="./public/images/bird.png" class="menu-stickers" id="bird-sticker" />
+    <img src="./public/images/horse.png" class="menu-stickers" id="horse-sticker" />
+
+    <main>
+        <img class="sounds-icon" id="sound-effects" src="./public/images/soundbox.png" />
+        <img class="sounds-icon" id="menu-music" src="./public/images/music.png" />
+        <!-- ------------------------------------------------------------------------------------------ -->
+        <div id="main-menu">
+            <h1>Drag the animals</h1>
+
+            <button id="go-game">Play</button>
+            <button id="go-ranking">Ranking</button>
+            <button id="go-rules">Rules</button>
+
+            <span>A game by Bruno Ferreira</span>
+        </div>
+
+        <!-- ------------------------------------------------------------------------------------------ -->
+        <div id="rules-menu">
+            <h2>How to Play</h2>
+
+            <div id="rules-text-area">
+                <ol>
+                    <li>Hold left mouse button to grab an animal.</li>
+                    <li>Move the animal to your respective shadow.</li>
+                    <li>Release left mouse button to drop the animal.</li>
+                    <li>You score 10 points per hit.</li>
+                    <li>You lose 1 life per mistake.</li>
+                    <li>If you lose all your 3 lifes that over.</li>
+                </ol>
+            </div>
+
+            <div id="drag-tutorial">
+                <img src="./public/images/elephant.png" class="animals-tutorial" id="elephant-tutorial" />
+                <img src="./public/images/pointer_cursor.png" id="cursor-tutorial" />
+                <img src="./public/images/elephant.png" class="holes-tutorial" />
+                <img src="./public/images/hippopotamus.png" class="holes-tutorial" id="hippopotamus-tutorial" />
+                <img src="./public/images/life_bar.png" class="life-bar-tutorial" id="life-bar-tutorial" />
+                <img src="./public/images/life_bar2.png" class="life-bar-tutorial" id="life-bar-tutorial2" />
+
+                <div id="float-point-tutorial">+10</div>
+            </div>
+
+            <button id="exit-rules">I understood!</button>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------- -->
+
+        <div id="game-screen">
+            <div id="info-bar">
+                <button id="quit-game">Return</button>
+                <span id="player-points">Points: <span>0</span></span>
+                <img class="life-bar" src="./public/images/life_bar.png" />
+            </div>
+
+            <div id="game-frame">
+                <img src="./public/images/elephant.png" class="animals" id="elephant" />
+                <img src="./public/images/bird.png" class="animals" id="bird" />
+                <img src="./public/images/crow.png" class="animals" id="crow" />
+                <img src="./public/images/hedgehog.png" class="animals" id="hedgehog" />
+                <img src="./public/images/duck.png" class="animals" id="duck" />
+                <img src="./public/images/lion.png" class="animals" id="lion" />
+                <img src="./public/images/rat.png" class="animals" id="rat" />
+                <img src="./public/images/squirrel.png" class="animals" id="squirrel" />
+                <img src="./public/images/rabbit.png" class="animals" id="rabbit" />
+                <img src="./public/images/horse.png" class="animals" id="horse" />
+                <img src="./public/images/hippopotamus.png" class="animals" id="hippopotamus" />
+                <img src="./public/images/chicken.png" class="animals" id="chicken" />
+
+                <img src="./public/images/elephant.png" class="holes" id="elephant-hole" />
+                <img src="./public/images/bird.png" class="holes" id="bird-hole" />
+                <img src="./public/images/crow.png" class="holes" id="crow-hole" />
+                <img src="./public/images/hedgehog.png" class="holes" id="hedgehog-hole" />
+                <img src="./public/images/duck.png" class="holes" id="duck-hole" />
+                <img src="./public/images/lion.png" class="holes" id="lion-hole" />
+                <img src="./public/images/rat.png" class="holes" id="rat-hole" />
+                <img src="./public/images/squirrel.png" class="holes" id="squirrel-hole" />
+                <img src="./public/images/rabbit.png" class="holes" id="rabbit-hole" />
+                <img src="./public/images/horse.png" class="holes" id="horse-hole" />
+                <img src="./public/images/hippopotamus.png" class="holes" id="hippopotamus-hole" />
+                <img src="./public/images/chicken.png" class="holes" id="chicken-hole" />
+            </div>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="module" src="./public/js/index.js"></script>
+
+</body>
+
+</html>
