@@ -38,7 +38,7 @@
 
         <!-- ------------------------------------------------------------------------------------------ -->
         <div id="rules-menu">
-            <h2>How to Play</h2>
+            <h2>HOW TO PLAY</h2>
 
             <div id="rules-text-area">
                 <ol>
@@ -77,18 +77,6 @@
             </div>
 
             <div id="game-frame">
-                <img src="./public/images/elephant.png" class="animals" id="elephant" />
-                <img src="./public/images/bird.png" class="animals" id="bird" />
-                <img src="./public/images/crow.png" class="animals" id="crow" />
-                <img src="./public/images/hedgehog.png" class="animals" id="hedgehog" />
-                <img src="./public/images/duck.png" class="animals" id="duck" />
-                <img src="./public/images/lion.png" class="animals" id="lion" />
-                <img src="./public/images/rat.png" class="animals" id="rat" />
-                <img src="./public/images/squirrel.png" class="animals" id="squirrel" />
-                <img src="./public/images/rabbit.png" class="animals" id="rabbit" />
-                <img src="./public/images/horse.png" class="animals" id="horse" />
-                <img src="./public/images/hippopotamus.png" class="animals" id="hippopotamus" />
-                <img src="./public/images/chicken.png" class="animals" id="chicken" />
 
                 <img src="./public/images/elephant.png" class="holes" id="elephant-hole" />
                 <img src="./public/images/bird.png" class="holes" id="bird-hole" />
@@ -102,7 +90,53 @@
                 <img src="./public/images/horse.png" class="holes" id="horse-hole" />
                 <img src="./public/images/hippopotamus.png" class="holes" id="hippopotamus-hole" />
                 <img src="./public/images/chicken.png" class="holes" id="chicken-hole" />
+
+                <img src="./public/images/elephant.png" class="animals" id="elephant" />
+                <img src="./public/images/bird.png" class="animals" id="bird" />
+                <img src="./public/images/crow.png" class="animals" id="crow" />
+                <img src="./public/images/hedgehog.png" class="animals" id="hedgehog" />
+                <img src="./public/images/duck.png" class="animals" id="duck" />
+                <img src="./public/images/lion.png" class="animals" id="lion" />
+                <img src="./public/images/rat.png" class="animals" id="rat" />
+                <img src="./public/images/squirrel.png" class="animals" id="squirrel" />
+                <img src="./public/images/rabbit.png" class="animals" id="rabbit" />
+                <img src="./public/images/horse.png" class="animals" id="horse" />
+                <img src="./public/images/hippopotamus.png" class="animals" id="hippopotamus" />
+                <img src="./public/images/chicken.png" class="animals" id="chicken" />
             </div>
+        </div>
+         <!-- ---------------------------------------------------------------------------------------------- -->
+
+        <div id="victory-screen">
+            <h2>CONGRATULATIONS!</h2>
+            <h3 class="total-points">Your Points: <span>0</span></h3>
+            <div style="display: flex; flex-direction: column;">
+                <span>Enter your name:</span>
+                <input id="victory-input" type="text" maxlength="10" value="player" />
+            </div>
+            <img class="result-img" src="./public/images/hedgehog.png">
+            <button id="exit-victory">Nice!</button>
+        </div>
+
+        <div id="defeat-screen">
+            <h2>GAME OVER</h2>
+            <h3 class="total-points">Your Points: <span>0</span></h3>
+            <div style="display: flex; flex-direction: column;">
+                <span>Enter your name:</span>
+                <input id="defeat-input" type="text" maxlength="10" value="player" />
+            </div>
+            <img class="result-img" src="./public/images/rat.png">
+            <button id="exit-defeat">Too Bad</button>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------- -->
+
+        <div id="ranking-menu">
+            <h2>HIGH SCORE</h2>
+            <table>
+                
+            </table>
+            <button id="exit-ranking">Main Menu</button>
+        </div>        
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

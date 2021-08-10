@@ -1,13 +1,14 @@
 import { Game, animalsArray, animalObject } from "./objects.js"
 
 $(document).ready(function () {
-
     const IMAGE_PATH = "./public/images/";
     const AUDIO_PATH = "./public/audio/";
 
+    const ipAtual = "192.168.15.5"
+
     let gameControl = new Game();
 
-    $("#rules-menu, #game-screen, .animals, .holes, .life-bar").hide();
+    $("#rules-menu, #game-screen, #victory-screen, #defeat-screen, #ranking-menu, .animals, .holes, .life-bar").hide();
     $("#life-bar").show();
     // ---------- Sound Area ----------
     let muteAudioState = false;
@@ -16,7 +17,7 @@ $(document).ready(function () {
     music.src = `${AUDIO_PATH}LittlerootTown_fromPokemonEmerald.mp3`;
     music.autoplay = true;
     music.loop = true;
-    music.volume = 0.1;
+    music.volume = 0.05;
 
     let buttonClick = new Audio();
     buttonClick.src = `${AUDIO_PATH}button_click.mp3`;
@@ -27,6 +28,7 @@ $(document).ready(function () {
     gameOver.src = `${AUDIO_PATH}gameover_sound.wav`;
     gameOver.preload = true;
     gameOver.muted = muteAudioState;
+    gameOver.volume = 0.2;
 
     let hitSound = new Audio();
     hitSound.src = `${AUDIO_PATH}hit_sound.wav`;
@@ -88,6 +90,12 @@ $(document).ready(function () {
             newLevelSound.muted = muteAudioState;
             newLevelSound.volume = 0.2;
 
+            gameOver = new Audio();
+            gameOver.src = `${AUDIO_PATH}gameover_sound.wav`;
+            gameOver.preload = true;
+            gameOver.muted = muteAudioState;
+            gameOver.volume = 0.2;
+
         } else {
             $("#sound-effects").attr("src", soundImage);
 
@@ -114,6 +122,12 @@ $(document).ready(function () {
             newLevelSound.preload = true;
             newLevelSound.muted = muteAudioState;
             newLevelSound.volume = 0.1;
+
+            gameOver = new Audio();
+            gameOver.src = `${AUDIO_PATH}gameover_sound.wav`;
+            gameOver.preload = true;
+            gameOver.muted = muteAudioState;
+            gameOver.volume = 0.2;
         }
     });
 
@@ -199,7 +213,7 @@ $(document).ready(function () {
 
 
     $(".animals").draggable({
-        cursor: "move",
+        cursor: "grab",
         cursorAt: { top: 75, left: 75 },
         zIndex: 10,
         containment: "parent",
@@ -215,7 +229,7 @@ $(document).ready(function () {
                 $(this).removeClass('drag-revert');
                 return true;
             }
-        }
+        },
     });
 
     $(".holes").droppable({
@@ -224,7 +238,7 @@ $(document).ready(function () {
 
                 gameControl.playerPoints += 10;
                 gameControl.playerPointsThisLevel += 10
-                $("#player-points > span").text(gameControl.playerPoints);
+                $("#player-points > span, .total-points > span").text(gameControl.playerPoints);
 
                 hitSound.play();
                 hitSound = new Audio();
@@ -236,7 +250,7 @@ $(document).ready(function () {
                 ui.draggable.position({
                     my: "center",
                     at: "center",
-                    of: $(this),
+                    of: $(this)
                 });
 
                 ui.draggable.draggable({ disabled: true });
@@ -254,16 +268,14 @@ $(document).ready(function () {
                     newLevelSound.volume = 0.2;
 
                     if (gameControl.currentLevel > gameControl.totalLevel) {
-                        gameControl.clearGame();
                         $(".animals").draggable({ disabled: false });
                         $(".holes").droppable({ disabled: false });
-                        $("#game-screen").fadeOut(1000, function() {
-                            // if for ranking
-                            $("#main-menu").show();
+                        $("#game-screen").fadeOut(1000, function () {
+                            $("#victory-screen").show();
+                            $(".menu-stickers").fadeIn(500);
                             $(".animals, .holes").hide();
                             $("#player-points > span").text("0");
                             $("#life-bar2, #life-bar3, #life-bar4").hide(0);
-                            gameControl.clearGame();
                         });
 
                     } else {
@@ -273,7 +285,6 @@ $(document).ready(function () {
                         buildLevel();
                     }
                 }
-
             } else {
                 gameControl.playerLifes--;
 
@@ -283,7 +294,23 @@ $(document).ready(function () {
                     $("#life-bar3").fadeIn(300);
                 } else {
                     $("#life-bar4").fadeIn(300);
-                    // if for ranking
+
+                    gameOver.play();
+                    gameOver = new Audio();
+                    gameOver.src = `${AUDIO_PATH}gameover_sound.wav`;
+                    gameOver.preload = true;
+                    gameOver.muted = muteAudioState;
+                    gameOver.volume = 0.2;
+
+                    $(".animals").draggable({ disabled: false });
+                    $(".holes").droppable({ disabled: false });
+                    $("#game-screen").fadeOut(1000, function () {
+                        $("#defeat-screen").show();
+                        $(".menu-stickers").fadeIn(500);
+                        $(".animals, .holes").hide();
+                        $("#player-points > span").text("0");
+                        $("#life-bar2, #life-bar3, #life-bar4").hide(0);
+                    });
                 }
 
                 errorSound.play()
@@ -409,4 +436,100 @@ $(document).ready(function () {
             $(animalObject[selectedHoles[i]].holeId).css(animalObject[selectedHoles[i]].holePosition);
         }
     }
+    // ---------- Game Area -----------
+
+    // -------- Result Area -----------
+    $("#exit-victory").click(function () {
+
+        let nameInput = stringTreatment($("#victory-input").val());
+
+        let data = {
+            name: nameInput.toUpperCase(),
+            points: gameControl.playerPoints
+        }
+
+        postScore("#victory-screen", data);
+    });
+
+    $("#exit-defeat").click(function () {
+
+        let nameInput = stringTreatment($("#defeat-input").val());
+
+        let data = {
+            name: nameInput.toUpperCase(),
+            points: gameControl.playerPoints
+        }
+
+        postScore("#defeat-screen", data);
+    });
+
+    function stringTreatment(string) {
+
+        string = string.replace(/[^a-zA-Z ]/g, "");
+
+        if (string == "" ||string == " ") {
+           string = "player";
+        }
+
+        return string;
+    }
+
+    function postScore(frameId, data) {
+        $.ajax({
+            type: "POST",
+            url: `http://${ipAtual}:8080/post-score`,
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "json"
+        });
+
+    $(frameId).fadeOut(500, function () {
+        $("#main-menu").show();
+        $(".total-points > span").text("0");
+        gameControl.clearGame();
+    });
+    }
+    // -------- Result Area -----------
+
+    // -------- Ranking Area -----------
+    $("#go-ranking").click(function () {
+        $("#main-menu").hide();
+        loadRanking();
+        $("#ranking-menu").fadeIn(500);
+    });
+
+    $("#exit-ranking").click(function () {
+        $("#ranking-menu").fadeOut(500, function () {
+            $("#main-menu").show();
+        });
+    });
+
+    function loadRanking() {
+        $.get(`http://${ipAtual}:8080/get-ranking`, function (data) {
+            $("table").html(`
+                <tr>
+                    <th>Pos.</th>
+                    <th>Player name</th>
+                    <th>Score</th>
+                </tr>
+            `);
+
+            data.sort((elementA, elementB) => elementA["points"] > elementB["points"] ? -1 : 1);
+
+            for (let i = 0; i < data.length; i++) {
+                if (i < 10) {
+                    $("table").append(`
+                        <tr>
+                            <td>${i + 1}º</td>
+                            <td class="player">${data[i].name}</td>
+                            <td class="score">${data[i].points}</td>
+                        </tr>
+                    `);
+                } else {
+                    i = data.length;
+                }
+            }
+        });
+    }
+    // -------- Ranking Area -----------
 });

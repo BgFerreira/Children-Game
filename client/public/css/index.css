@@ -20,6 +20,7 @@ body {
     background-size: cover;
     height: 100%;
     width: 100%;
+    cursor:default;
 }
 
 .menu-stickers {
@@ -74,7 +75,7 @@ h1 {
 /* --------- Main Menu ----------- */
 
 /* --------- Rules Menu ----------- */
-#rules-menu{
+#rules-menu, #victory-screen, #defeat-screen, #ranking-menu{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -193,13 +194,50 @@ h1 {
     width: 150px;
     height: 150px;
     object-fit: contain;
+    z-index: 0;
 }
 
 .animals {
-    z-index: 2;
+    z-index: 2; 
     cursor: move;
+    cursor: grab;
 }
 /* --------- Game Screen ---------- */
+
+/* --------- Results ------------- */
+input {
+    font-size: 24px;
+    border-radius: 5px;
+    border: #2e1200 solid 2px;
+    outline: none;
+    padding: 4px;
+    text-transform: uppercase;
+    user-select: text;
+}
+/* --------- Results ------------- */
+
+/* --------- Ranking ------------- */
+table {
+    width: 90%;
+    border: solid #4e1e00;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table th {
+    border-bottom: solid #4e1e00;
+    border-left: solid #4e1e00;
+}
+
+table td {
+   border-left: solid #4e1e00;
+}
+
+tr:nth-child(even) {
+    background-color: #ffdac1;
+}
+
+/* --------- Ranking ------------- */
 
 /* --------- Buttons ----------- */
 button {
